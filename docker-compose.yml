@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: django_web
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+  bot:
+    build: .
+    container_name: telegram_bot
+    command: python manage.py runbot
+    volumes:
+      - .:/code
+    env_file:
+      - .env
