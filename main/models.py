@@ -29,6 +29,7 @@ class BotUser(AbstractBaseUser, PermissionsMixin):
     chat_id = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    language = models.CharField(max_length=10, default='uz', null=True, blank=True)
 
     objects = BotUserManager()
 
@@ -41,11 +42,12 @@ class BotUser(AbstractBaseUser, PermissionsMixin):
 
 # Product-related models
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    uz_name = models.CharField(max_length=100)
+    ru_name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
-        return self.name
+        return self.uz_name
 
 
 class Color(models.Model):
@@ -61,7 +63,8 @@ class Product(models.Model):
     ru_name = models.CharField(max_length=100)
     main_image = models.ImageField(upload_to='products/')
     categories = models.ManyToManyField(Category)
-    description = models.TextField()
+    uz_description = models.TextField()
+    ru_description = models.TextField(default='нет')
 
     def __str__(self):
         return self.uz_name

@@ -12,4 +12,4 @@ class Command(BaseCommand):
         except Exception as e:
             self.stderr.write(self.style.ERROR(f"Bot stopped with error: {e}"))
         else:
-            self.stdout.write(self.style.SUCCESS("Telegram bot stopped gracefully."))
+            self.stdout.write(self.style.SUCCESS("Telegram bot stopped successfully."))

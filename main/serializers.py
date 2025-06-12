@@ -17,7 +17,7 @@ class BotUserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'parent']
+        fields = ['id', 'uz_name',"ru_name", 'parent']
 
 
 class ColorSerializer(serializers.ModelSerializer):
@@ -48,12 +48,15 @@ class ProductColorWritableSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    categories = CategorySerializer(many=True)
     product_colors = ProductColorSerializer(many=True, read_only=True)
-
+    categories = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Category.objects.all()
+    )
+    main_image = serializers.ImageField()
     class Meta:
         model = Product
-        fields = ['id', 'uz_name', 'ru_name', 'main_image', 'categories', 'description', 'product_colors']
+        fields = ['id', 'uz_name', 'ru_name', 'main_image', 'categories', 'uz_description','ru_description', 'product_colors']
 
 
 class BasketItemSerializer(serializers.ModelSerializer):
